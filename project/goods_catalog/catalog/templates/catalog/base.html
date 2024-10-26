@@ -1,0 +1,38 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>{{ page_title }}</title>
+</head>
+<body class="body">
+
+    <header class="header base-container">
+        <a href="" class="header-item logo"></a>
+
+        <nav class="header-item nav">
+            <a href="" class="nav-item link txt">Home</a>
+            <a href="" class="nav-item link txt">About</a>
+        </nav>
+
+        <a href="" class="header-item btn txt">Sign In</a>
+    </header>
+
+    <main class="main base-container">
+        {% block main_content %}
+        {% endblock %}
+    </main>
+    
+    <footer class="footer base-container">
+        <ul class="footer-list">
+            <li class="footer-list-item"><a class="link txt" href="https://t.me/katehok_1" target="_blank">@katehok_1</a></li>
+            <li class="footer-list-item txt">&copy;&nbsp;2024</li>
+            <li class="footer-list-item"><a class="link txt" href="https://t.me/marccrass" target="_blank">@marccrass</a></li>
+        </ul>
+    </footer>
+
+</body>
+</html>

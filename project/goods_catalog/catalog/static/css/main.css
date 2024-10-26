@@ -112,6 +112,11 @@
 .search-form-item {
     margin-right: 30px;
     font-size: 20px;
+    background-color: black;
+    color: bisque;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 20px;
 }
 
 .search-form-item:last-child {
@@ -119,49 +124,44 @@
 }
 
 .request {
-    background-color: black;
-    color: bisque;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 20px;
     width: 50%;
 }
 
-.products {
+.cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 20px;
 }
 
-.product {
+.card {
     background-color: black;
     border-radius: 20px;
     padding: 20px;
 }
 
-.product:hover {
+.card:hover {
     background-color: bisque;
 }
 
-.product:hover .product-title,
-.product:hover .product-description {
+.card:hover .card-item {
     color: black;
 }
 
-.product:active {
+.card:active {
     background-color: black;
 }
 
-.product:active .product-title,
-.product:active .product-description {
+.card:active .card-item {
     color: bisque;
 }
 
-.product-title {
+.card-item {
     margin-bottom: 10px;
 }
 
-.product-description {}
+.card-item:last-child {
+    margin: 0;
+}
 
 /* FOOTER */
 

@@ -1,0 +1,14 @@
+{% extends "catalog/base.html" %}
+
+{% block main_content %}
+<container class="product">
+    <h1 class='txt'>Full name: {{ product.full_name }}</h1>
+    <h3 class='txt'>Short name: {{ product.short_name }}</h3>
+    <h6 class='txt'>Seller: {{ product.seller }}</h6>
+    <h6 class='txt'>Producer: {{ product.producer }}</h6>
+    <p class='txt'>Description: {{ product.description }}</p>
+    <p class='txt'>Quantity: {{ product.quantity }}</p>
+    <p class='txt'>Price: {{ product.price }}</p>
+    <p class='txt'>Created at: {{ product.created_at }}</p>
+</container>
+{% endblock %}

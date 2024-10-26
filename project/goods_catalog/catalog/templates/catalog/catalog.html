@@ -1,0 +1,18 @@
+{% extends "catalog/base.html" %}
+
+{% block main_content %}
+<form action="" class="search-form">
+    <input type="text" name="request" id="request" class="search-form-item request" placeholder="Request" required>
+    <button type="submit" class="search-form-item btn txt">Search</button>
+    <button type="reset" class="search-form-item btn txt">Reset</button>
+</form>
+
+<container class="cards">
+    {% for card in cards %}
+    <a href="/product/{{ card.id }}" class="card">
+        <h4 class="card-item txt">{{ card.short_name }}</h4>
+        <p class="card-item txt">{{ card.description|truncatewords:10 }}</p>
+    </a>
+    {% endfor %}
+</container>
+{% endblock %}
