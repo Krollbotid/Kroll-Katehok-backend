@@ -6,27 +6,42 @@
     text-decoration: none;
 }
 
-.txt {
+.txt,
+.mini-txt,
+.link-txt,
+.btn-txt,
+.one-column-form-title,
+.one-column-txt-input,
+.one-column-form-txt-link,
+.search-form-txt-input {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: bisque;
     font-size: 18px;
 }
 
-.heading {}
+.mini-txt {
+    font-size: 14px;
+}
 
-.link {
+.link-txt,
+.one-column-form-txt-link {
     text-decoration: none;
 }
 
-.link:hover {
+.link-txt:hover,
+.one-column-form-txt-link:hover {
     text-decoration: underline;
 }
 
-.link:active {
+.link-txt:active,
+.one-column-form-txt-link:active {
     color: black;
 }
 
-.btn {
+.heading {}
+
+.btn,
+.btn-txt {
     background-color: black;
     text-decoration: none;
     padding: 15px 20px;
@@ -34,14 +49,64 @@
     border: none;
 }
 
-.btn:hover {
+.btn:hover,
+.btn-txt:hover {
     background-color: bisque;
     color: black;
 }
 
-.btn:active {
+.btn:active,
+.btn-txt:active {
     background-color: black;
     color: bisque;
+}
+
+.oneline-list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* One-column form */
+.one-column-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: black;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.one-column-form-item {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.one-column-form-item:last-child {
+    margin: 0;
+}
+
+.one-column-form-title {
+    font-size: 32px;
+    font-weight: normal;
+    text-align: center;
+}
+
+.one-column-txt-input {
+    padding: 15px 20px;
+    background-color: black;
+    border: 1px solid bisque;
+    border-radius: 15px;
+}
+
+.one-column-txt-input::placeholder {
+    color: bisque;
+}
+
+.one-column-form-txt-link {
+    text-align: center;
 }
 
 .base-container {
@@ -102,51 +167,51 @@
     flex-grow: 1;
 }
 
-/* Поисковая форма */
-.search-form {
-    display: flex;
-    flex-direction: column;  /* Элементы формы будут располагаться в две строки */
-    gap: 10px;
+.main-item {
     margin-bottom: 20px;
 }
 
-.search-row, .filter-row {
-    display: flex;
-    gap: 10px;  /* Отступы между элементами в строке */
-}
-
-.search-form-item {
-    margin-right: 30px;
-    font-size: 20px;
-    background-color: black;
-    color: bisque;
-    padding: 15px 20px;
-    border: none;
-    border-radius: 20px;
-}
-
-.search-form-item:last-child {
+.main-item:last-child {
     margin: 0;
 }
 
-.request {
-    flex: 2;
+/* Поисковая форма */
+.search-form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.search-form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-form-row-item {
+    margin-right: 20px;
+}
+
+.search-form-row-item:last-child {
+    margin: 0;
+}
+
+.search-form-txt-input {
     width: 100%;
-}
-
-.filter-form-item {
-    flex: 1;
-    font-size: 20px;
-    background-color: black;
-    color: bisque;
-    padding: 15px 10px;
-    border: none;
     border-radius: 20px;
+    color: bisque;
+    border: none;
+    background-color: black;
+    padding: 15px 20px;
+    font-size: 18px;
+    flex-grow: 1;
 }
 
-button.search-form-item.btn {
-    flex: 0 0 auto;
-    padding: 0.5rem 1rem;
+.search-form-txt-input::placeholder {
+    color: bisque;
+}
+
+.search-form-txt-input {
+
 }
 
 .cards {
@@ -155,7 +220,8 @@ button.search-form-item.btn {
     grid-gap: 20px;
 }
 
-.card {
+.card,
+.product {
     background-color: black;
     border-radius: 20px;
     padding: 20px;
@@ -185,14 +251,46 @@ button.search-form-item.btn {
     margin: 0;
 }
 
-/* FOOTER */
+.product {
+    display: flex;
+    flex-direction: column;
+}
 
-.footer {}
+.product-item {
+    margin-bottom: 20px;
+}
 
-.footer-list {
-    list-style-type: none;
+.product-item:last-child {
+    margin: 0;
+}
+
+.product-header {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.pdoduct-header-item {
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.pdoduct-header-item:last-child {
+    margin: 0;
+    min-width: 20%;
+}
+
+.product-main {
     display: flex;
     justify-content: space-between;
 }
 
-.footer-list-item {}
+.product-main-left {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.product-main-right {}
+
+/* FOOTER */
+
+.footer {}

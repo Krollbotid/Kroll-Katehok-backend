@@ -1,21 +1,18 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="main.css">
+    <title>Login</title>
 </head>
 <body class="body">
 
     <header class="header base-container">
-        <a href="{% url "index" %}" class="header-item logo"></a>
+        <a href="" class="header-item logo"></a>
 
         <nav class="header-item nav">
-            <a href="{% url "index" %}" class="nav-item link-txt">Home</a>
-            <a href="{% url "catalog" %}" class="nav-item link-txt">Catalog</a>
+            <a href="" class="nav-item link-txt">Home</a>
             <a href="" class="nav-item link-txt">About</a>
         </nav>
 
@@ -23,8 +20,13 @@
     </header>
 
     <main class="main base-container">
-        {% block main_content %}
-        {% endblock %}
+        <form action="" method="post" class="one-column-form">
+            <h2 class="one-column-form-item one-column-form-title">Login</h2>
+            <input type="text" name="username" class="one-column-form-item one-column-txt-input" placeholder="Username" required>
+            <input type="password" name="password" class="one-column-form-item one-column-txt-input" placeholder="Password" required>
+            <button type="submit" class="one-column-form-item btn-txt">Sign&nbsp;In</button>
+            <a href="" class="one-column-form-item one-column-form-txt-link mini-txt">Don't have an account?</a>
+        </form>
     </main>
     
     <footer class="footer base-container">

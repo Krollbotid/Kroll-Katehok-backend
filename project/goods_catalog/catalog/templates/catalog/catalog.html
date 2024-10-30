@@ -1,17 +1,17 @@
 {% extends "catalog/base.html" %}
 
 {% block main_content %}
-<form class="search-form" action="{% url 'catalog' %}" method="get">
+<form class="main-item search-form" action="{% url 'catalog' %}" method="get">
     <!-- Первая строка: поле поиска и кнопки -->
-    <div class="search-row">
-        <input type="text" name="query" id="request" class="search-form-item request" placeholder="Request" value="{{ request.GET.query }}">
-        <button type="submit" class="search-form-item btn txt">Search</button>
-        <button type="button" onclick="resetFilters()" class="search-form-item btn txt">Reset</button>
-    </div>
+    <container class="search-form-row">
+        <input type="text" name="query" id="request" class="search-form-row-item search-form-txt-input" placeholder="Request" value="{{ request.GET.query }}">
+        <button type="submit" class="search-form-row-item btn-txt">Search</button>
+        <button type="button" onclick="resetFilters()" class="search-form-row-item btn-txt">Reset</button>
+    </container>
 
     <!-- Вторая строка: фильтры по цене, количеству, производителю и продавцу -->
-    <div class="filter-row">
-        <select name="producer" id="producer" class="filter-form-item">
+    <container class="search-form-row">
+        <select name="producer" id="producer" class="search-form-row-item search-form-txt-input">
             <option value="">All Producers</option>
             {% for producer in producers %}
                 <option value="{{ producer.id }}" {% if producer.id|stringformat:"s" == request.GET.producer %}selected{% endif %}>
@@ -20,7 +20,7 @@
             {% endfor %}
         </select>
 
-        <select name="seller" id="seller" class="filter-form-item">
+        <select name="seller" id="seller" class="search-form-row-item search-form-txt-input">
             <option value="">All Sellers</option>
             {% for seller in sellers %}
                 <option value="{{ seller.id }}" {% if seller.id|stringformat:"s" == request.GET.seller %}selected{% endif %}>
@@ -29,20 +29,20 @@
             {% endfor %}
         </select>
 
-        <input type="number" name="min_price" step="0.01" placeholder="Min Price" class="filter-form-item" value="{{ request.GET.min_price }}">
-        <input type="number" name="max_price" step="0.01" placeholder="Max Price" class="filter-form-item" value="{{ request.GET.max_price }}">
-        <input type="number" name="min_quantity" placeholder="Min Quantity" class="filter-form-item" value="{{ request.GET.min_quantity }}">
-    </div>
+        <input type="number" name="min_price" step="0.01" placeholder="Min Price" class="search-form-row-item search-form-txt-input" value="{{ request.GET.min_price }}">
+        <input type="number" name="max_price" step="0.01" placeholder="Max Price" class="search-form-row-item search-form-txt-input" value="{{ request.GET.max_price }}">
+        <input type="number" name="min_quantity" placeholder="Min Quantity" class="search-form-row-item search-form-txt-input" value="{{ request.GET.min_quantity }}">
+    </container>
 </form>
 
-<container class="cards">
+<container class="main-item cards">
     {% for card in cards %}
-    <a href="{% url 'product' card.id %}" class="card">
+    <a href="{% url "product" card.id %}" class="card">
         <h4 class="card-item txt">{{ card.short_name }}</h4>
         <p class="card-item txt">{{ card.description|truncatewords:10 }}</p>
     </a>
     {% empty %}
-        <p class="txt">Товары не найдены.</p>
+        <p class="txt">No maches...</p>
     {% endfor %}
 </container>
 

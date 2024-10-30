@@ -1,14 +1,24 @@
 {% extends "catalog/base.html" %}
 
 {% block main_content %}
-<container class="product">
-    <h1 class='txt'>Full name: {{ product.full_name }}</h1>
-    <h3 class='txt'>Short name: {{ product.short_name }}</h3>
-    <h6 class='txt'>Seller: {{ product.seller_id.login }}</h6>
-    <h6 class='txt'>Producer: {{ product.producer_id.full_name }}</h6>
-    <p class='txt'>Description: {{ product.description }}</p>
-    <p class='txt'>Quantity: {{ product.quantity }}</p>
-    <p class='txt'>Price: {{ product.price }}</p>
-    <p class='txt'>Created at: {{ product.created_at }}</p>
-</container>
+<article class="product">
+    <container class="product-item product-header">
+        <h3 class='txt pdoduct-header-item'>{{ product.full_name }}</h3>
+        <p class='txt pdoduct-header-item'>{{ product.short_name }}</p>
+    </container>
+
+    <container class="product-item product-main">
+        <p class='product-main-left txt'>{{ product.description }}</p> 
+        <container class="product-main-right">
+            <p class='txt'>Quantity:&nbsp;{{ product.quantity }}</p>
+            <p class='txt'>Price:&nbsp;{{ product.price }}</p>
+        </container>
+    </container>
+
+    <ul class="product-item oneline-list">
+        <li class='mini-txt'>Published by {{ product.seller_id.login }}</li>
+        <li class='mini-txt'>{{ product.created_at }}</li>
+        <li class='mini-txt'>Produced by {{ product.producer_id.full_name }}</li>
+    </ul>
+</article>
 {% endblock %}
