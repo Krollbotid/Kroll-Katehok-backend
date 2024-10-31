@@ -1,47 +1,12 @@
+from django.contrib.auth.decorators import login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
+from django.contrib.auth.mixins import LoginRequiredMixin # А этот миксин - для ограничения доступа к классам представления
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
-from .models import Product, Producer, User  # предполагается, что эти модели уже подключены
+from .models import Product, Producer  # предполагается, что эти модели уже подключены
+from django.contrib.auth import get_user_model
 from django.http import HttpResponse
 
-# TMP
-cards = [
-    {
-        'id': 1,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 2,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 3,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 7,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 99,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 256,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 763,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-]
-
+@login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
 def index(request):
     # return HttpResponse("<h1>Index</h1>")
     return render(request, 'index.html')
@@ -80,7 +45,7 @@ def catalog(request):
 
     # Передаем списки производителей и продавцов в шаблон для фильтрации
     producers = Producer.objects.all()
-    sellers = User.objects.all()
+    sellers = get_user_model().objects.all()
 
     return render(request, 'catalog/catalog.html', context={
         'page_title': 'Catalog',

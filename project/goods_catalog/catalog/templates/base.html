@@ -18,8 +18,12 @@
             <a href="{% url "catalog" %}" class="nav-item link-txt">Catalog</a>
             <a href="" class="nav-item link-txt">About</a>
         </nav>
-
-        <a href="" class="header-item btn-txt">Sign&nbsp;In</a>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url "users:logout" %}" class="header-item btn-txt">Sign&nbsp;Out</a>
+        {% else %}
+        <a href="{% url "users:login" %}" class="header-item btn-txt">Sign&nbsp;In</a>
+        {% endif %}
     </header>
 
     <main class="main base-container">

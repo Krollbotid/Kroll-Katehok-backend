@@ -13,6 +13,7 @@
 .one-column-form-title,
 .one-column-txt-input,
 .one-column-form-txt-link,
+.errorlist li,
 .search-form-txt-input {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: bisque;
@@ -108,6 +109,17 @@
 .one-column-form-txt-link {
     text-align: center;
 }
+
+.errorlist {
+    width: 100%;
+    list-style-type: none;
+    background-color: #1F1F1F;
+    padding: 15px 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.errorlist li {}
 
 .base-container {
     background-color: #1F1F1F;

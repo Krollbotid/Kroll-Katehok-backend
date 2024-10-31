@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'goods_catalog',
     'catalog.apps.CatalogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'catalog' # TMP
+LOGOUT_REDIRECT_URL = 'users:logout'
+LOGIN_URL = 'users:login'
+
+AUTH_USER_MODEL = 'users.User'

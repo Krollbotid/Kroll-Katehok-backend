@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Producer, UserType, User, Product, TicketStatus, SupportTicket, SupportMessage
+from .models import Producer, Product, TicketStatus, SupportTicket, SupportMessage
 
 
 @admin.register(Product)
@@ -22,27 +22,7 @@ class ProducerAdmin(admin.ModelAdmin):
     list_filter = ('short_name',)
     ordering = ('full_name',)
     inlines = [ProductInline]
-
-
-@admin.register(User)
-class UserAdmin(admin.ModelAdmin):
-    list_display = ('login', 'email', 'phone', 'type_id')
-    search_fields = ('login', 'email', 'phone')
-    list_filter = ('type_id',)
-    ordering = ('login',)
-    inlines = [ProductInline]
-
-class UserInline(admin.TabularInline):
-    model = User
-    extra = 1
-
-@admin.register(UserType)
-class UserTypeAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
-    ordering = ('name',)
-    inlines = [UserInline]
-
+    
 
 @admin.register(SupportMessage)
 class SupportMessageAdmin(admin.ModelAdmin):
