@@ -102,11 +102,17 @@
     flex-grow: 1;
 }
 
+/* Поисковая форма */
 .search-form {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;  /* Элементы формы будут располагаться в две строки */
+    gap: 10px;
     margin-bottom: 20px;
+}
+
+.search-row, .filter-row {
+    display: flex;
+    gap: 10px;  /* Отступы между элементами в строке */
 }
 
 .search-form-item {
@@ -124,7 +130,23 @@
 }
 
 .request {
-    width: 50%;
+    flex: 2;
+    width: 100%;
+}
+
+.filter-form-item {
+    flex: 1;
+    font-size: 20px;
+    background-color: black;
+    color: bisque;
+    padding: 15px 10px;
+    border: none;
+    border-radius: 20px;
+}
+
+button.search-form-item.btn {
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
 }
 
 .cards {
