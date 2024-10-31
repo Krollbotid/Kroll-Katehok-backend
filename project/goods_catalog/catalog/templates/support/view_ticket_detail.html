@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<h2>Заявка #{{ ticket.id }}</h2>
+<p>Описание: {{ ticket.description }}</p>
+<p>Статус: {{ ticket.status_id.name }}</p>
+
+<h3>Сообщения:</h3>
+<ul>
+    {% for message in messages %}
+        <li>{{ message.sender_id.login }}: {{ message.message }} ({{ message.created_at }})</li>
+    {% endfor %}
+</ul>
+
+<form method="post">
+    {% csrf_token %}
+    <textarea name="response" rows="4" placeholder="Введите ответ"></textarea>
+    <button type="submit" class="btn txt">Отправить ответ</button>
+</form>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<h2>Список заявок</h2>
+<ul>
+    {% for ticket in tickets %}
+        <li>
+            <a href="{% url 'view_ticket_detail' ticket.id %}">Заявка #{{ ticket.id }} - {{ ticket.creator_id.login }}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endblock %}

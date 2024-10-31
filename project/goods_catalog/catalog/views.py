@@ -1,49 +1,76 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.mail import send_mail
+from django.conf import settings
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-from .models import Product, Producer, User  # предполагается, что эти модели уже подключены
-from django.http import HttpResponse
+from .models import Product, Producer, User, SupportTicket, TicketStatus, SupportMessage
+from .forms import SupportTicketForm
 
-# TMP
-cards = [
-    {
-        'id': 1,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 2,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 3,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 7,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 99,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque amet magni quos expedita nemo sequi voluptas facere nihil ullam tempora voluptatem, corrupti exercitationem qui molestias doloremque ipsam minus dolor quis.' 
-    },
-    {
-        'id': 256,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-    {
-        'id': 763,
-        'short_name': 'Lorem ipsum dolor sit amet.',
-        'description': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores minus et ad iusto eveniet ducimus vitae doloribus, accusantium, illum quae ratione eligendi in mollitia voluptates dolorem rerum explicabo eius assumenda. At optio nulla magni dolorum sint unde, provident sit sequi quo beatae reiciendis, aperiam eos molestias totam doloribus facere ipsa!' 
-    },
-]
+# Feedback section
+
+@login_required
+def create_support_ticket(request):
+    if request.method == 'POST':
+        form = SupportTicketForm(request.POST)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.creator_id = request.user  # Привязываем заявку к текущему пользователю
+            ticket.status_id = TicketStatus.objects.get(name="Ожидание")  # Устанавливаем статус по умолчанию
+            ticket.save()
+
+            # Отправка email-уведомления сотруднику
+            send_mail(
+                'Новая заявка в техподдержку',
+                f"Пользователь {request.user.login} создал новую заявку: {ticket.description}",
+                settings.DEFAULT_FROM_EMAIL,
+                ['markuskonev@gmail.com'],  # email техподдержки
+                fail_silently=False,
+            )
+
+            return redirect('support_ticket_success')
+    else:
+        form = SupportTicketForm()
+    return render(request, 'support/create_ticket.html', {'form': form})
+
+def support_ticket_success(request):
+    return render(request, 'support/support_ticket_success.html')
+
+@user_passes_test(lambda u: u.is_staff)
+def view_tickets(request):
+    """Просмотр списка всех заявок для сотрудников"""
+    tickets = SupportTicket.objects.all()
+    return render(request, 'support/view_tickets.html', {'tickets': tickets})
+
+@user_passes_test(lambda u: u.is_staff)
+def view_ticket_detail(request, ticket_id):
+    """Просмотр и ответ на конкретную заявку для сотрудников"""
+    ticket = get_object_or_404(SupportTicket, id=ticket_id)
+    if request.method == 'POST':
+        message = request.POST.get('response')
+        SupportMessage.objects.create(ticket_id=ticket, sender_id=request.user, message=message)
+
+        # Отправка email-уведомления пользователю
+        send_mail(
+            'Ответ на вашу заявку',
+            f"Сотрудник ответил на вашу заявку: {message}",
+            settings.DEFAULT_FROM_EMAIL,
+            [ticket.creator_id.email],
+            fail_silently=False,
+        )
+
+        ticket.status_id = TicketStatus.objects.get(name="Отвечено")  # Обновляем статус
+        ticket.save()
+        return redirect('view_tickets')
+
+    messages = ticket.supportmessage_set.all()
+    return render(request, 'support/view_ticket_detail.html', {
+        'ticket': ticket,
+        'messages': messages,
+    })
+
+# Searcher section
 
 def index(request):
-    # return HttpResponse("<h1>Index</h1>")
     return render(request, 'index.html')
 
 def catalog(request):
