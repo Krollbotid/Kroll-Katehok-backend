@@ -11,6 +11,7 @@
 .link-txt,
 .btn-txt,
 .one-column-form-title,
+.one-column-form-subtitle,
 .one-column-txt-input,
 .one-column-form-txt-link,
 .errorlist li,
@@ -43,6 +44,7 @@
 
 .btn,
 .btn-txt {
+    text-align: center;
     background-color: black;
     text-decoration: none;
     padding: 15px 20px;
@@ -89,10 +91,16 @@
     margin: 0;
 }
 
-.one-column-form-title {
+.one-column-form-title,
+.one-column-form-subtitle {
     font-size: 32px;
     font-weight: normal;
     text-align: center;
+}
+
+.one-column-form-subtitle {
+    font-size: 24px;
+    text-align: left;
 }
 
 .one-column-txt-input {
@@ -120,6 +128,10 @@
 }
 
 .errorlist li {}
+
+.one-column-form-error {
+    margin: 0;
+}
 
 .base-container {
     background-color: #1F1F1F;

@@ -1,14 +1,13 @@
-from django.contrib.auth.decorators import login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
-from django.contrib.auth.mixins import LoginRequiredMixin # А этот миксин - для ограничения доступа к классам представления
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-from .models import Product, Producer  # предполагается, что эти модели уже подключены
+# from django.contrib.auth.mixins import LoginRequiredMixin # А этот миксин - для ограничения доступа к классам представления
+# from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
+from .models import Product, Producer
 
 @login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
 def index(request):
-    # return HttpResponse("<h1>Index</h1>")
     return render(request, 'index.html')
 
 def catalog(request):
@@ -28,7 +27,7 @@ def catalog(request):
             Q(short_name__icontains=query) | 
             Q(description__icontains=query) |
             Q(producer_id__full_name__icontains=query) | 
-            Q(seller_id__login__icontains=query)
+            Q(seller_id__username__icontains=query)
         )
 
     # Фильтрация
@@ -53,7 +52,6 @@ def catalog(request):
         'producers': producers,
         'sellers': sellers,
     })
-
 
 def product(request, id):
     product = get_object_or_404(Product, id=id)

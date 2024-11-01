@@ -17,6 +17,8 @@
             <a href="{% url "index" %}" class="nav-item link-txt">Home</a>
             <a href="{% url "catalog" %}" class="nav-item link-txt">Catalog</a>
             <a href="" class="nav-item link-txt">About</a>
+            <a href="{% url "support:view_tickets" %}" class="nav-item link-txt">Support</a>
+
         </nav>
         
         {% if user.is_authenticated %}

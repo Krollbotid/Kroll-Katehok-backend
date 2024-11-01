@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<form method="post" class="one-column-form">
+    {% csrf_token %}
+    <h2 class="one-column-form-item one-column-form-title">Feedback ticket</h2>
+    <div class="one-column-form-item one-column-form-error">{{ form.non_field_errors }}</div>
+    {% for field in form %}
+    {{ field }}
+    <div class="one-column-form-item one-column-form-error">{{ field.errors }}</div>
+    {% endfor %}
+    <button type="submit" class="one-column-form-item btn-txt">Send</button>
+</form>
+{% endblock %}

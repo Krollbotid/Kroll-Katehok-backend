@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<conatiner class="one-column-form">
+    {% if tickets %}
+    <h2 class="one-column-form-item one-column-form-title">Tickets</h2>
+    {% else %}
+    <h3 class="one-column-form-item one-column-form-subtitle">No tickets...</h3>
+    {% endif %}
+    {% for ticket in tickets %}
+        <a class="one-column-form-item btn-txt" href="{% url 'support:view_ticket_detail' ticket.id %}">
+            Ticket&nbsp;№{{ ticket.id }}&nbsp;({{ ticket.creator_id.username }})
+        </a>
+    {% endfor %}
+    <a class="one-column-form-item btn-txt" href="{% url "support:create_support_ticket" %}">Create&nbsp;new</a>
+</conatiner>
+{% endblock %}
