@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'goods_catalog',
     'catalog.apps.CatalogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'markuskonev@gmail.com'
 EMAIL_HOST_PASSWORD = 'hexj deti oynp dsqh'
 DEFAULT_FROM_EMAIL = 'noreplyGrusha@gmail.com'
+
+LOGIN_REDIRECT_URL = 'catalog' # TMP
+LOGOUT_REDIRECT_URL = 'users:logout'
+LOGIN_URL = 'users:login'
+
+AUTH_USER_MODEL = 'users.User'

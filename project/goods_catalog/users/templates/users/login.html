@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<form action="" method="post" class="one-column-form">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <h2 class="one-column-form-item one-column-form-title">Login</h2>
+    <div style="one-column-form-item one-column-form-error">{{ form.non_field_errors }}</div>
+    {% for field in form %}
+    {{ field }}
+    <div style="one-column-form-item one-column-form-error">{{ field.errors }}</div>
+    {% endfor %}
+    <button type="submit" class="one-column-form-item btn-txt">Sign&nbsp;In</button>
+    <a href="{% url "users:register" %}" class="one-column-form-item one-column-form-txt-link mini-txt">Don't have an account?</a>
+</form>
+{% endblock %}

@@ -3,7 +3,10 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-from .models import Product, Producer, User, SupportTicket, TicketStatus, SupportMessage
+from django.contrib.auth.mixins import LoginRequiredMixin # А этот миксин - для ограничения доступа к классам представления
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from .models import Product, Producer, SupportTicket, TicketStatus, SupportMessage
 from .forms import SupportTicketForm
 
 # Feedback section
@@ -70,6 +73,7 @@ def view_ticket_detail(request, ticket_id):
 
 # Searcher section
 
+@login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
 def index(request):
     return render(request, 'index.html')
 
@@ -107,7 +111,7 @@ def catalog(request):
 
     # Передаем списки производителей и продавцов в шаблон для фильтрации
     producers = Producer.objects.all()
-    sellers = User.objects.all()
+    sellers = get_user_model().objects.all()
 
     return render(request, 'catalog/catalog.html', context={
         'page_title': 'Catalog',
@@ -115,7 +119,6 @@ def catalog(request):
         'producers': producers,
         'sellers': sellers,
     })
-
 
 def product(request, id):
     product = get_object_or_404(Product, id=id)
