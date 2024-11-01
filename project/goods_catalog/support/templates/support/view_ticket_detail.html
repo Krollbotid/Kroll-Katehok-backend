@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<form method="post" class="one-column-form">
+    {% csrf_token %}
+
+    <h2 class="one-column-form-item one-column-form-title">Ticket&nbsp;№{{ ticket.id }}</h2>
+    <p class="one-column-form-item txt">Description:&nbsp;{{ ticket.description }}</p>
+    <p class="one-column-form-item txt">Status:&nbsp;{{ ticket.status_id.name }}</p>
+
+    {% if messages %}
+        <h3 class="one-column-form-item one-column-form-subtitle">Messages:</h3>
+        {% for message in messages %}
+        <p class="one-column-form-item txt">
+            {{ message.sender_id.username }}&nbsp;({{ message.created_at }}):<br>{{ message.message }}
+        </p>
+        {% endfor %}
+    {% else %}
+        <h3 class="one-column-form-item one-column-form-subtitle">No messages...</h3>
+    {% endif %}
+
+    {% if user.is_staff or user == ticket.creator_id %}
+    <textarea class="one-column-form-item one-column-txt-input" name="response" rows="4" placeholder="Message"></textarea>
+    <button class="one-column-form-item btn-txt" type="submit" class="btn-txt">Send&nbsp;message</button>
+    {% endif %}
+</form>
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'goods_catalog',
     'catalog.apps.CatalogConfig',
     'users.apps.UsersConfig',
+    'support.apps.SupportConfig',
 ]
 
 MIDDLEWARE = [

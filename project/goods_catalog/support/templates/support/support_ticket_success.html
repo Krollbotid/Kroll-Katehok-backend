@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<container class="one-column-form">
+    <h2 class="one-column-form-item one-column-form-title">Thank you for your ticket!</h2>
+    <p class="one-column-form-item txt">Ticket created successfuly! We will contact you as soon as possible.</p>
+    <a href="{% url 'support:view_tickets' %}" class="one-column-form-item btn-txt">Show&nbsp;tickets</a>
+</container>
+{% endblock %}
