@@ -1,14 +1,75 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+# from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
-# from django.contrib.auth.mixins import LoginRequiredMixin # А этот миксин - для ограничения доступа к классам представления
-# from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib.auth import get_user_model
+from django.urls import reverse, reverse_lazy
+from django.core.exceptions import PermissionDenied
+# from users.models import User
 from .models import Product, Producer
+from .forms import ProductForm
 
-@login_required # Илья, используй этот декоратор для ограничения доступа незареганным пользакам
-def index(request):
-    return render(request, 'index.html')
+class HomeView(LoginRequiredMixin, ListView):
+    template_name = 'catalog/index.html'
+    context_object_name = 'cards'
+    extra_context = {
+        'page_title': 'Home',
+    }
+
+    def get_queryset(self):
+        return Product.objects.filter(seller_id=self.request.user.id)
+
+class ProductView(DetailView):
+    model = Product
+    template_name = 'catalog/product.html'
+    context_object_name = 'product'
+    pk_url_kwarg = 'id'
+    extra_context = {
+        'page_title': 'Product',
+    }
+
+class AddProduct(LoginRequiredMixin, CreateView):
+    form_class = ProductForm
+    template_name = 'catalog/form_product.html'
+    extra_context = {
+        'page_title': 'Add product',
+        'form_title': 'Add product',
+    }
+
+class UpdateProduct(LoginRequiredMixin, UpdateView):
+    form_class = ProductForm
+    pk_url_kwarg = 'id'
+    template_name = 'catalog/form_product.html'
+    extra_context = {
+        'page_title': 'Update product',
+        'form_title': 'Update product',
+    }
+    
+    def get_queryset(self):
+        # не автор не может редачить продукт
+        product = Product.objects.filter(Q(pk=self.kwargs[self.pk_url_kwarg]), Q(seller_id=self.request.user.id))
+        if not product:
+            raise PermissionDenied()
+        return product
+
+class DeleteProduct(LoginRequiredMixin, DeleteView):
+    pk_url_kwarg = 'id'
+    template_name = 'catalog/delete_product.html'
+    context_object_name = 'product'
+    success_url = reverse_lazy('index')
+    extra_context = {
+        'page_title': 'Delete product',
+        'form_title': 'Delete product',
+    }
+    
+    def get_queryset(self):
+        # не автор не может дельнуть продукт
+        product = Product.objects.filter(Q(pk=self.kwargs[self.pk_url_kwarg]), Q(seller_id=self.request.user.id))
+        if not product:
+            raise PermissionDenied()
+        return product
 
 def catalog(request):
     query = request.GET.get('query', '')
@@ -53,9 +114,3 @@ def catalog(request):
         'sellers': sellers,
     })
 
-def product(request, id):
-    product = get_object_or_404(Product, id=id)
-    return render(request, 'catalog/product.html', context={
-        'page_title': 'Product',
-        'product': product,
-    })

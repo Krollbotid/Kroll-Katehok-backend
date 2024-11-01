@@ -136,7 +136,7 @@ EMAIL_HOST_USER = 'markuskonev@gmail.com'
 EMAIL_HOST_PASSWORD = 'hexj deti oynp dsqh'
 DEFAULT_FROM_EMAIL = 'noreplyGrusha@gmail.com'
 
-LOGIN_REDIRECT_URL = 'catalog' # TMP
+LOGIN_REDIRECT_URL = '/' # TMP
 LOGOUT_REDIRECT_URL = 'users:logout'
 LOGIN_URL = 'users:login'
 

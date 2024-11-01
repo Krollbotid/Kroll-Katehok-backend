@@ -16,9 +16,14 @@
     </container>
 
     <ul class="product-item oneline-list">
-        <li class='mini-txt'>Published by {{ product.seller_id.login }}</li>
+        <li class='mini-txt'>Published by {{ product.seller_id.username }}</li>
         <li class='mini-txt'>{{ product.created_at }}</li>
         <li class='mini-txt'>Produced by {{ product.producer_id.full_name }}</li>
     </ul>
+
+    <container class="product-item search-form-row">
+        <a class="search-form-row-item btn-txt" href="{% url "update" product.id %}">Update</a>
+        <a class="search-form-row-item btn-txt" href="{% url "delete" product.id %}">Delete</a>
+    </container>
 </article>
 {% endblock %}

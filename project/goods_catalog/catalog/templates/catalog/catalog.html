@@ -24,7 +24,7 @@
             <option value="">All Sellers</option>
             {% for seller in sellers %}
                 <option value="{{ seller.id }}" {% if seller.id|stringformat:"s" == request.GET.seller %}selected{% endif %}>
-                    {{ seller.login }}
+                    {{ seller.username }}
                 </option>
             {% endfor %}
         </select>

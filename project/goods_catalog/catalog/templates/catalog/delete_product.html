@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<form method="post" class="one-column-form">
+    {% csrf_token %}
+    <h2 class="one-column-form-item one-column-form-title">{{ form_title }}</h2>
+    <container class="search-form-row">
+        <button type="submit" class="search-form-row-item btn-txt">Confirm</button>
+        <a class="search-form-row-item btn-txt" href="{% url "product" product.id %}">Cancel</a>
+    </container>
+</form>
+{% endblock %}

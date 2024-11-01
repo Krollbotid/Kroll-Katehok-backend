@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+<container class="main-item cards">
+    {% for card in cards %}
+    <a href="{% url "product" card.id %}" class="card">
+        <h4 class="card-item txt">{{ card.short_name }}</h4>
+        <p class="card-item txt">{{ card.description|truncatewords:10 }}</p>
+    </a>
+    {% empty %}
+        <p class="txt">No maches...</p>
+    {% endfor %}
+</container>
+{% endblock %}

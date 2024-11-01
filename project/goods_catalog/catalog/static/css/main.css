@@ -207,12 +207,14 @@
 }
 
 .search-form-row {
+    width: 100%;
     display: flex;
     justify-content: space-between;
 }
 
 .search-form-row-item {
     margin-right: 20px;
+    flex-grow: 1;
 }
 
 .search-form-row-item:last-child {
@@ -227,7 +229,7 @@
     background-color: black;
     padding: 15px 20px;
     font-size: 18px;
-    flex-grow: 1;
+    flex-grow: 2;
 }
 
 .search-form-txt-input::placeholder {
