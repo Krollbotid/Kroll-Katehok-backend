@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-<conatiner class="one-column-form">
+<container class="one-column-form">
     {% if tickets %}
     <h2 class="one-column-form-item one-column-form-title">Tickets</h2>
     {% else %}
@@ -13,5 +13,5 @@
         </a>
     {% endfor %}
     <a class="one-column-form-item btn-txt" href="{% url "support:create_support_ticket" %}">Create&nbsp;new</a>
-</conatiner>
+</container>
 {% endblock %}
