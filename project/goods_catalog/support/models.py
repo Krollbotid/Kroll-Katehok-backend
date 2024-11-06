@@ -7,6 +7,9 @@ class TicketStatus(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.name
+
 class SupportTicket(models.Model):
     creator_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     status_id = models.ForeignKey(TicketStatus, on_delete=models.CASCADE)
