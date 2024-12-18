@@ -153,3 +153,5 @@ LOGOUT_REDIRECT_URL = 'users:logout'
 LOGIN_URL = 'users:login'
 
 AUTH_USER_MODEL = 'users.User'
+
+CSRF_TRUSTED_ORIGINS = ["https://localhost:8443", "http://localhost"]

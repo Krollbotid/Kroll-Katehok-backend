@@ -1,8 +1,5 @@
 version: '3.9'
 
-networks:
-  nginx-public:
-
 services:
   db:
     container_name: postgres
@@ -14,9 +11,11 @@ services:
       - POSTGRES_PASSWORD=${SQL_PASSWORD:-postgres}
       - POSTGRES_DB=${SQL_DATABASE:-goods_catalog}
     env_file:
-      - ./.env.dev
+      - ./.env
     ports:
       - "5432:5432"
+    networks:
+      - app_network
     healthcheck:
       test: ["CMD", "pg_isready", "-q", "-U", "${SQL_USER:-postgres}", "-d", "${SQL_DATABASE:-goods_catalog}"]
       interval: 10s
@@ -28,15 +27,36 @@ services:
   django:
     build: ./django
     container_name: django
-    command: sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    command: >
+      sh -c "
+      python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py shell -c 'from start.create_superuser import create_superuser; create_superuser()' &&
+      python manage.py shell -c 'from start.filler import filler; filler()' &&
+      python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./django/:/usr/src/project/
     depends_on:
       - db
-    env_file:
-      - ./.env.dev
+    environment:
+      DEBUG: "${DEBUG:-1}"
+      SECRET_KEY: "${SECRET_KEY:-burninhell}"
+      DJANGO_ALLOWED_HOSTS: "${DJANGO_ALLOWED_HOSTS:-localhost}"
+      SQL_ENGINE: "${SQL_ENGINE:-django.db.backends.postgresql}"
+      SQL_DATABASE: "${SQL_DATABASE:-goods_catalog}"
+      SQL_USER: "${SQL_USER:-postgres}"
+      SQL_PASSWORD: "${SQL_PASSWORD:-postgres}"
+      SQL_HOST: "${SQL_HOST:-db}"
+      SQL_PORT: "${SQL_PORT:-5432}"
+      DJANGO_SUPERUSER_USERNAME: "${DJANGO_SUPERUSER_USERNAME:-root}"
+      DJANGO_SUPERUSER_EMAIL: "${DJANGO_SUPERUSER_EMAIL:-admin@example.com}"
+      DJANGO_SUPERUSER_PASSWORD: "${DJANGO_SUPERUSER_PASSWORD:-root}"
     ports:
       - 8000:8000
+    networks:
+      - app_network
+    secrets:
+      - django_super_password
 
   nginx:
     image: nginx:latest
@@ -46,6 +66,8 @@ services:
     ports:
       - "8080:8080"
       - "8443:8443"
+    networks:
+      - app_network
     depends_on:
       - django
     restart: unless-stopped
@@ -55,11 +77,33 @@ services:
       - nginx_ssl_key
       - nginx_ssl_crt
 
+  notification_service:
+    container_name: notification_service
+    build: ./notif
+    environment:
+      SMTP_SERVER: "${SMTP_SERVER:-smtp.gmail.com}"
+      SMTP_PORT: "${SMTP_PORT:-587}"
+      SMTP_USERNAME: "${SMTP_USERNAME:-myemail@example.com}"
+    secrets:
+      - smtp_password
+    volumes:
+      - app_data:/app/data
+    networks:
+      - app_network
+
+networks:
+  app_network:
+
 volumes:
   postgres_data:
+  app_data:
 
 secrets:
   nginx_ssl_key:
     file: /etc/ssl/private/nginx.key
   nginx_ssl_crt:
     file: /etc/ssl/private/nginx.crt
+  smtp_password:
+    file: ./secrets/smtp_password.txt
+  django_super_password:
+    file: ./secrets/django_super_password.txt
