@@ -2,3 +2,5 @@
 **/migrations/*
 !**/migrations/__init__.py
 *.drawio.bkp
+**/.vagrant/
+project/goods_catalog/db.sqlite3
