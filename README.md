@@ -1,7 +1,7 @@
 # Учебный проект CRM система на Django
 
 ## Титульный лист
-![Титульный лист](diagrams/png/title.png)
+![Титульный лист](diargrams/png/title.png)
 
 ## Представление предметной области
 todo
@@ -14,20 +14,16 @@ todo
 
 ## Планирование проекта
 ### ER-диаграмма
-![](diagrams/png/ER.png)
+![](diargrams/png/ER.png)
 
 ### Диаграмма классов
-![](diagrams/png/Class.png)
+![](diargrams/png/Class.png)
 
 ### Диаграмма последовательностей
-![](diagrams/png/sequence.png)
+![](diargrams/png/sequence.png)
 
 ### Диаграмма ганта
-![](diagrams/png/gant.png)
-
-
-### Архитектура
-![](pictures/backend.png)
+![](diargrams/png/gant.png)
 
 ## How To Use It
 - Install vagrant.
