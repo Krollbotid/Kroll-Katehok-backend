@@ -17,7 +17,7 @@ todo
 ![](diargrams/png/ER.png)
 
 ### Диаграмма классов
-![](diargrams/png/Class.png)
+![](diargrams/png/class.png)
 
 ### Диаграмма последовательностей
 ![](diargrams/png/sequence.png)
