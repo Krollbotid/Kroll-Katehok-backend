@@ -14,20 +14,20 @@ todo
 
 ## Планирование проекта
 ### ER-диаграмма
-![](diagrams/png/ER.drawio.png)
+![](diagrams/png/ER.png)
 
 ### Диаграмма классов
-![](pictures/Class.png)
+![](diagrams/png/Class.png)
 
 ### Диаграмма последовательностей
-![](diagrams/png/sequence.drawio.png)
+![](diagrams/png/sequence.png)
 
 ### Диаграмма ганта
 ![](diagrams/png/gant.png)
 
 
 ### Архитектура
-![](pictures/backend.drawio.png)
+![](pictures/backend.png)
 
 ## How To Use It
 - Install vagrant.
