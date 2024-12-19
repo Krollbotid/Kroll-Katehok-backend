@@ -1,13 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-# from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.http import HttpResponse, Http404, HttpResponseForbidden
 from django.contrib.auth import get_user_model
 from django.urls import reverse, reverse_lazy
 from django.core.exceptions import PermissionDenied
-# from users.models import User
+from django.views.decorators.cache import cache_page  # Добавлено для кэширования
+from django.utils.decorators import method_decorator  # Для декорирования методов классов
 from .models import Product, Producer
 from .forms import ProductForm
 
@@ -48,7 +47,7 @@ class UpdateProduct(LoginRequiredMixin, UpdateView):
     }
     
     def get_queryset(self):
-        # не автор не может редачить продукт
+        # не автор не может редактировать продукт
         product = Product.objects.filter(Q(pk=self.kwargs[self.pk_url_kwarg]), Q(seller_id=self.request.user.id))
         if not product:
             raise PermissionDenied()
@@ -65,12 +64,14 @@ class DeleteProduct(LoginRequiredMixin, DeleteView):
     }
     
     def get_queryset(self):
-        # не автор не может дельнуть продукт
+        # не автор не может удалить продукт
         product = Product.objects.filter(Q(pk=self.kwargs[self.pk_url_kwarg]), Q(seller_id=self.request.user.id))
         if not product:
             raise PermissionDenied()
         return product
 
+# Декорируем функцию для кэширования
+@cache_page(300)  # Кэш на 5 минут
 def catalog(request):
     query = request.GET.get('query', '')
     producer_id = request.GET.get('producer')
@@ -113,4 +114,3 @@ def catalog(request):
         'producers': producers,
         'sellers': sellers,
     })
-

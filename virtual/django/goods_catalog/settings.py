@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-q_*x#!@9v93l&rh+w4p8!+)1ntn4o6skuwb)m@-a6!s*#t@phy")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost").split(" ")
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'users.apps.UsersConfig',
     'support.apps.SupportConfig',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -95,7 +96,16 @@ DATABASES = {
     }
 }
 
-
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
+        'TIMEOUT': 30,  # Кэш будет сохраняться 5 минут
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -139,14 +149,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'markuskonev@gmail.com'
-EMAIL_HOST_PASSWORD = 'hexj deti oynp dsqh'
-DEFAULT_FROM_EMAIL = 'noreplyGrusha@gmail.com'
 
 LOGIN_REDIRECT_URL = '/' # TMP
 LOGOUT_REDIRECT_URL = 'users:logout'
