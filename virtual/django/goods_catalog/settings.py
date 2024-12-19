@@ -99,11 +99,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-        'TIMEOUT': 30,  # Кэш будет сохраняться 5 минут
+        'LOCATION': 'redis://redis:6379',
     }
 }
 

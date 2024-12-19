@@ -71,7 +71,7 @@ class DeleteProduct(LoginRequiredMixin, DeleteView):
         return product
 
 # Декорируем функцию для кэширования
-@cache_page(300)  # Кэш на 5 минут
+@cache_page(60 * 15)  # Кэш на 5 минут
 def catalog(request):
     query = request.GET.get('query', '')
     producer_id = request.GET.get('producer')

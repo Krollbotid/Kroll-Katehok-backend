@@ -40,9 +40,9 @@ Vagrant.configure("2") do |config|
 
 
     # Сборка и запуск контейнеров
-    #cd /vagrant
-    #docker-compose build
-    #docker-compose up -d
+    cd /vagrant
+    docker-compose build
+    docker-compose up -d
   SHELL
 end
   
