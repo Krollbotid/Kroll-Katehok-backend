@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import TicketStatus, SupportTicket, SupportMessage
 
+
 @admin.register(SupportMessage)
 class SupportMessageAdmin(admin.ModelAdmin):
     list_display = ('ticket_id', 'sender_id', 'created_at', 'message')

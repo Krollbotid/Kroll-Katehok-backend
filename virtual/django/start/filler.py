@@ -1,5 +1,4 @@
 from django.db import IntegrityError
-from django.core.management.base import BaseCommand
 from support.models import TicketStatus
 
 

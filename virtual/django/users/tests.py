@@ -5,10 +5,12 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class UserModelTest(TestCase):
     def test_user_creation(self):
         user = User.objects.create_user(username='testuser', password='IhateDjango228', email='user@test.com')
         self.assertEqual(user.username, 'testuser')
+
 
 class RegisterFormTest(TestCase):
     def test_valid_register_form(self):
@@ -18,13 +20,15 @@ class RegisterFormTest(TestCase):
         })
         self.assertTrue(form.is_valid())
 
+
 class LoginFormTest(TestCase):
     def setUp(self):
         User.objects.create_user(username='testuser', password='IhateDjango228', email='user@test.com')
-        
+
     def test_valid_login_form(self):
         form = LoginForm(data={'username': 'testuser', 'password': 'IhateDjango228'})
         self.assertTrue(form.is_valid())
+
 
 class UserViewTest(TestCase):
     def setUp(self):

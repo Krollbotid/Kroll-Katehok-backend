@@ -2,9 +2,8 @@ from django.test import TestCase
 from django.urls import reverse
 from .models import Product, Producer
 from .forms import ProductForm
-from django.contrib.auth import get_user_model
-from django.core.exceptions import PermissionDenied
 from users.models import User
+
 
 class ProductModelTest(TestCase):
     def setUp(self):
@@ -20,6 +19,7 @@ class ProductModelTest(TestCase):
         self.assertEqual(self.product.full_name, 'Test Product')
         self.assertEqual(self.product.seller_id, self.user)
 
+
 class ProductFormTest(TestCase):
     def setUp(self):
         self.producer = Producer.objects.create(full_name='Producer', short_name='P', email='producer@test.com')
@@ -31,6 +31,7 @@ class ProductFormTest(TestCase):
             'description': 'A valid product description', 'quantity': 10, 'price': 50.00
         })
         self.assertTrue(form.is_valid())
+
 
 class ProductViewTest(TestCase):
     def setUp(self):

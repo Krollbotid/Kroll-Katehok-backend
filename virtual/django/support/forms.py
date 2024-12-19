@@ -3,6 +3,7 @@ from .models import SupportTicket
 
 CHAR_FIELD_CLASSES = 'one-column-form-item one-column-txt-input'
 
+
 class SupportTicketForm(forms.ModelForm):
     class Meta:
         model = SupportTicket
