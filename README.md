@@ -1,35 +1,47 @@
-# Goods Catalog
+# Учебный проект CRM система на Django
 
-## Deploy
+## Титульный лист
+![Титульный лист](diagrams/png/title.png)
 
-### Install `pyenv` and `poetry`
+## Представление предметной области
+todo
 
-В проекте используются утилиты `pyenv` - для управления версиями интерпретатора `python` и `poetry` - пакетный менеджер для зависимостей проекта.
+## Описание проекта
+Проект - сайт каталог товаров, можно сортировать по производителю, продавцу, цене, количеству.
+Пользователи могут создавать свои карточки товаров и редактировать их, также есть возможность
+создания чата с тех поддержкой, доступ к кторому имеют только создатель и суперпользователи.
+При отправке сообщения в чате идет отправка письма на электронную почту через отдельный сервис.
 
-[Install `pyenv` and `poetry` | Guide for Windows](./guide/INSTALL_DEV_ENV_TOOLS.md)
+## Планирование проекта
+### ER-диаграмма
+![](diagrams/png/ER.drawio.png)
 
-### Run Django dev-server
+### Диаграмма классов
+![](pictures/Class.png)
 
-Протестировать работоспособность проекта можно при помощи тестового веб-сервера django.
+### Диаграмма последовательностей
+![](diagrams/png/sequence.drawio.png)
 
-[Set up environmets and run dev-server | Guide](./guide/README.md)
+### Диаграмма ганта
+![](diagrams/png/gant.png)
 
-## Repo Structure
-- `/`
-    - `README.md` - о пректе
-    - `.gitignore` - исключения `git`
-    - `guide/` - гайды по настройке окружения разработки
-    - `diagrams/` - UML-диаграммы проекта
-        - `drawio/` - исходники (`.drawio`)
-        - `png/` - изображения (`.png`)
-    - `project/` - директория разработки проекта
-        - `.python-version` - версия интерпретатора `python`
-        - `pyproject.toml` - зависимости проекта
-        - `poetry.lock` - полный список зависимостей `poetry`
-        - `goods_catalog/` - директория `django`-проекта
-            - `db.sqlite3` - (временная) база данных проекта
-            - `manage.py` - скрипт управления проектом
-            - `goods_catalog/` - директория приложения настроек проекта
-            - `users/` - директория приложения аутентификации/авторизации пользователей проекта
-            - `catalog/` - директория приложения каталога проекта
-            - `support/` - директория приложения службы поддержки проекта
+
+### Архитектура
+![](pictures/backend.drawio.png)
+
+## How To Use It
+- Install vagrant.
+- Clone this repository manually
+```
+git clone https://gitlab.digital.mephi.ru/Katehok/goods_catalog
+```
+- Enter into to the "virtual" directory
+- Start virtual machine
+```
+vagrant up
+```
+- Open localhost:8080
+- Allow your browser open this page
+
+## Использование уведомлений по почте
+- Для нужен пароль приложения от гугла и имя пользователя, которые надо вписывать в virtual/.env
