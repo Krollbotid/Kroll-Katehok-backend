@@ -39,7 +39,7 @@ def create_support_ticket(request):
 
             # Уведомляем техподдержку
             send_notification(
-                recipient_email="markuskonev@gmail.com",  # Email техподдержки
+                recipient_email="supportmail@gmail.com",  # Email техподдержки
                 subject="Новая заявка в техподдержку",
                 message=f"Пользователь {request.user.username} создал заявку: {ticket.description}",
             )
