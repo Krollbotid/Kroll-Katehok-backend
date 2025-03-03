@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
+
 
 class Producer(models.Model):
     full_name = models.CharField(max_length=255)
@@ -10,6 +11,7 @@ class Producer(models.Model):
 
     def __str__(self):
         return self.full_name
+
 
 class Product(models.Model):
     seller_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
@@ -23,7 +25,6 @@ class Product(models.Model):
 
     def __str__(self):
         return self.full_name
-    
+
     def get_absolute_url(self):
         return reverse_lazy("product", kwargs={"id": self.pk})
-    

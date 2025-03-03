@@ -1,14 +1,14 @@
 import requests
-from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import SupportTicket, TicketStatus, SupportMessage
 from .forms import SupportTicketForm
 from django.core.exceptions import PermissionDenied
 
+
 def send_notification(recipient_email, subject, message):
     """Функция для отправки уведомлений через FastAPI"""
-    fastapi_url = f"http://notification_service:8000/notify/"  # URL FastAPI внутри Docker-сети
+    fastapi_url = "http://notification_service:8000/notify/"  # URL FastAPI внутри Docker-сети
     try:
         response = requests.post(
             fastapi_url,
@@ -26,6 +26,7 @@ def send_notification(recipient_email, subject, message):
 
 # Feedback section
 
+
 @login_required
 def create_support_ticket(request):
     if request.method == 'POST':
@@ -38,7 +39,7 @@ def create_support_ticket(request):
 
             # Уведомляем техподдержку
             send_notification(
-                recipient_email="markuskonev@gmail.com",  # Email техподдержки
+                recipient_email="supportmail@gmail.com",  # Email техподдержки
                 subject="Новая заявка в техподдержку",
                 message=f"Пользователь {request.user.username} создал заявку: {ticket.description}",
             )
@@ -51,8 +52,10 @@ def create_support_ticket(request):
         'form': form,
     })
 
+
 def support_ticket_success(request):
     return render(request, 'support/support_ticket_success.html')
+
 
 @login_required
 def view_tickets(request):
@@ -62,6 +65,7 @@ def view_tickets(request):
     else:
         tickets = SupportTicket.objects.filter(creator_id=request.user)  # Только тикеты текущего пользователя
     return render(request, 'support/view_tickets.html', {'tickets': tickets})
+
 
 @login_required
 def view_ticket_detail(request, ticket_id):

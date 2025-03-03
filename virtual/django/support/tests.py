@@ -1,10 +1,11 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from .models import SupportTicket, SupportMessage, TicketStatus
+from .models import SupportTicket, TicketStatus
 from .forms import SupportTicketForm
 
 User = get_user_model()
+
 
 class SupportTicketModelTest(TestCase):
     def setUp(self):
@@ -17,10 +18,12 @@ class SupportTicketModelTest(TestCase):
     def test_ticket_creation(self):
         self.assertEqual(self.ticket.creator_id, self.user)
 
+
 class SupportTicketFormTest(TestCase):
     def test_valid_support_ticket_form(self):
         form = SupportTicketForm(data={'description': 'Test description'})
         self.assertTrue(form.is_valid())
+
 
 class SupportTicketViewTest(TestCase):
     def setUp(self):
@@ -55,4 +58,3 @@ class SupportTicketViewTest(TestCase):
         response = self.client.get(reverse('support:view_ticket_detail', kwargs={'ticket_id': self.ticket.id}))
         self.assertContains(response, 'Test ticket')
         self.assertEqual(response.status_code, 200)
-
